@@ -10,6 +10,7 @@ pipeline {
             steps {
 
                 dockerExecute(script: this, dockerImage: 'karma-ui5.int.repositories.cloud.sap/karma-ui5:latest', dockerWorkspace: '/') {
+                  sh "cds build --production"
                   sh "mbt build -t gen --mtar mta.tar"
                 }
             }
