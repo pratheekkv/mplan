@@ -13,6 +13,9 @@ RUN echo "deb https://packages.cloudfoundry.org/debian stable main" | tee /etc/a
 # Update local package index for cf to be included
 RUN apt-get update
 
+# make is required for mbt build
+RUN apt-get install -y make
+
 # Install Cloud Foundry CLI
 RUN apt-get install -y cf-cli
 
@@ -25,6 +28,9 @@ ENV PATH /usr/local/bin:$PATH
 
 # Verify Node.js and npm installation
 RUN node -v && npm -v
+
+# install cds
+RUN npm add -g @sap/cds-dk
 
 # Clean npm cache and install mbt globally
 RUN npm cache clean --force && npm install -g mbt
