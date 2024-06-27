@@ -1,3 +1,4 @@
+# Use an official Ubuntu runtime as a parent image
 FROM ubuntu:20.04
 
 # Update local package index
@@ -13,7 +14,7 @@ RUN echo "deb https://packages.cloudfoundry.org/debian stable main" | tee /etc/a
 # Update local package index for cf to be included
 RUN apt-get update
 
-# make is required for mbt build
+# Install make (required for mbt build)
 RUN apt-get install -y make
 
 # Install Cloud Foundry CLI
@@ -29,8 +30,19 @@ ENV PATH /usr/local/bin:$PATH
 # Verify Node.js and npm installation
 RUN node -v && npm -v
 
-# install cds
-RUN npm add -g @sap/cds-dk
+RUN npm config set registry https://int.repositories.cloud.sap/artifactory/api/npm/build-releases-npm
+
+# Install cds
+RUN npm install -g @sap/cds-dk@7.9.4
+
+# Install Maven
+RUN apt-get install -y maven
+
+# Install JDK 17
+RUN apt-get install -y openjdk-17-jdk
+
+# Assuming you have a customized settings.xml in the current directory
+COPY settings.xml /usr/share/maven/conf/settings.xml
 
 # Clean npm cache and install mbt globally
 RUN npm cache clean --force && npm install -g mbt
