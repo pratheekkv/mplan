@@ -1,4 +1,8 @@
 
+cds:
+  environment:
+    production:
+      profile: default
 ---
 spring:
   config.activate.on-profile: default
@@ -6,6 +10,3 @@ spring:
   
 cds:
   data-source.auto-config.enabled: false
-
-spring.security.user.name: admin
-spring.security.user.password: admin
