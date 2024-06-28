@@ -23,7 +23,7 @@ pipeline {
                                             dockerExecute(dockerImage:'karma-ui5.int.repositories.cloud.sap/karma-ui5:latest',
                                             script: this){
                                                       sh "cf login -u $CF_CRED_USR -p $CF_CRED_PSW -a api.cf.sap.hana.ondemand.com -o RMTEST_RMCFKVPR -s myspace"
-                                                      sh "cf deploy gen/mta.tar"
+                                                      sh "cf deploy gen/mta.tar -f"
                                             }
                                           }
                                 }

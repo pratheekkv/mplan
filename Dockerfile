@@ -20,6 +20,10 @@ RUN apt-get install -y make
 # Install Cloud Foundry CLI
 RUN apt-get install -y cf-cli
 
+RUN cf add-plugin-repo CF-Community https://plugins.cloudfoundry.org/
+RUN cf install-plugin multiapps -f
+
+
 # Install Node.js (LTS version, which includes npm)
 RUN curl -fsSL https://deb.nodesource.com/setup_lts.x | bash - && \
     apt-get install -y nodejs
