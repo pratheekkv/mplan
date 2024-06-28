@@ -49,18 +49,18 @@
 			<groupId>com.sap.cds</groupId>
 			<artifactId>cds-starter-cloudfoundry</artifactId>
 			<exclusions>
-				<!-- <exclusion>
+				<exclusion>
 					<groupId>org.springframework.boot</groupId>
 					<artifactId>
 						spring-boot-starter-security
 					</artifactId>
-				</exclusion> -->
-				<exclusion>
+				</exclusion>
+				<!-- <exclusion>
 					<groupId>com.sap.cloud.security</groupId>
 					<artifactId>
 						resourceserver-security-spring-boot-starter
 					</artifactId>
-				</exclusion>
+				</exclusion> -->
 			</exclusions>
 		</dependency>
 	</dependencies>
