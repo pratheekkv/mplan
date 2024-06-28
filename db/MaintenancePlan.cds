@@ -15,7 +15,7 @@ entity MaintenancePlan : cuid {
     SchedulingDuration : Integer;
     SchedulingDurationUnit : String(3);
     BasicStartDate : Date;
-    MaintenancePlanCallObject : Association to  eam.MaintenanceCallObject;
+    MaintenancePlanCallObject : Association to  eam.MaintenanceCallObject @title : 'CallObj';
     MaintenancePlanSchedulingIndicator : Association to  eam.MaintenancePlanSchedulingIndicator;
 
 }
