@@ -75,6 +75,11 @@ modules:
      content:
        instance:
          destinations:
+           - Authentication: NoAuthentication
+             Name: MPLAN_BACKEND
+             ProxyType: Internet
+             Type: HTTP
+             URL: '~{srv-api/srv-url}'
            - Name: mplan-html5-repo-host
              ServiceInstanceName: mplan-html5-srv
              ServiceKeyName: mplan-html5-srv-key
