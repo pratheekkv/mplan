@@ -78,7 +78,8 @@ modules:
            - Authentication: NoAuthentication
              Name: MPLAN_BACKEND
              URL: '~{srv-api/srv-url}'
-             sap.cloud.service: mplankvpr.service
+             ProxyType: Internet
+             Type: HTTP
            - Name: mplan-html5-repo-host
              ServiceInstanceName: mplan-repo-host
              ServiceKeyName: mplan-repo-host-key
