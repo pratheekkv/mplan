@@ -40,7 +40,7 @@ modules:
   type: com.sap.application.content
   path: .
   requires:
-  - name: mplan-repo-host
+  - name: mplan-html5-srv
     parameters:
       content-target: true
   build-parameters:
@@ -63,10 +63,10 @@ modules:
 - name: mplan-destinations
   type: com.sap.application.content
   requires:
-  - name: mplan-repo-host
+  - name: mplan-html5-srv
     parameters:
       service-key:
-        name: mplan-repo-host-key
+        name: mplan-html5-srv-key
   - name: srv-api
   - name: mplan-destination-service
     parameters:
@@ -76,8 +76,8 @@ modules:
        instance:
          destinations:
            - Name: mplan-html5-repo-host
-             ServiceInstanceName: mplan-repo-host
-             ServiceKeyName: mplan-repo-host-key
+             ServiceInstanceName: mplan-html5-srv
+             ServiceKeyName: mplan-html5-srv-key
              sap.cloud.service: mplankvpr.service
          existing_destinations_policy: update
   build-parameters:
@@ -88,7 +88,7 @@ resources:
   parameters:
     service: hana
     service-plan: hdi-shared
-- name: mplan-repo-host
+- name: mplan-html5-srv
   type: org.cloudfoundry.managed-service
   parameters:
     service: html5-apps-repo
