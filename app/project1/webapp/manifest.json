@@ -151,9 +151,5 @@
   "sap.fiori": {
     "registrationIds": [],
     "archeType": "transactional"
-  },
-  "sap.cloud": {
-    "public": true,
-    "service": "mplankvpr.service"
   }
 }
