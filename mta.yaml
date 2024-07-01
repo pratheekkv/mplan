@@ -60,7 +60,7 @@ modules:
     - npm install
     - npm run build:cf
     supported-platforms: []
-- name: cpapp-destinations
+- name: mplan-destinations
   type: com.sap.application.content
   requires:
   - name: mplan-repo-host
