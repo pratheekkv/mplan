@@ -1,48 +1,95 @@
-_schema-version: '3.1'
+_schema-version: "3.1"
 ID: mplan
+description: A simple CAP project.
 version: 1.0.0-SNAPSHOT
-description: "A simple CAP project."
-parameters:
-  enable-parallel-deployments: true
 modules:
-  - name: mplan-srv
-    type: java
-    path: srv
-    parameters:
-      buildpack: sap_java_buildpack
-      readiness-health-check-type: http
-      readiness-health-check-http-endpoint: /
-    properties:
-      SPRING_PROFILES_ACTIVE: dummy
-      JBP_CONFIG_COMPONENTS: "jres: ['com.sap.xs.java.buildpack.jre.SAPMachineJRE']"
-      JBP_CONFIG_SAP_MACHINE_JRE: '{ use_offline_repository: false, version: 17.+ }'
-    build-parameters:
-      builder: custom
-      commands:
-        - mvn clean package -DskipTests=true
-      build-result: target/*-exec.jar
-    provides:
-      - name: srv-api # required by consumers of CAP services (e.g. approuter)
-        properties:
-          srv-url: ${default-url}
-    requires:
-      - name: mplan-db
-
-  - name: mplan-db-deployer
-    type: hdb
-    path: db
-    parameters:
-      buildpack: nodejs_buildpack
-    build-parameters:
-      builder: custom
-      commands:
-        - npm run build
-    requires:
-      - name: mplan-db
-
-resources:
+- name: mplan-srv
+  type: java
+  path: srv
+  properties:
+    JBP_CONFIG_COMPONENTS: 'jres: [''com.sap.xs.java.buildpack.jre.SAPMachineJRE'']'
+    JBP_CONFIG_SAP_MACHINE_JRE: '{ use_offline_repository: false, version: 17.+ }'
+    SPRING_PROFILES_ACTIVE: cloud
+  requires:
   - name: mplan-db
-    type: com.sap.xs.hdi-container
+  provides:
+  - name: srv-api
+    properties:
+      srv-url: ${default-url}
+  parameters:
+    buildpack: sap_java_buildpack
+    readiness-health-check-http-endpoint: /
+    readiness-health-check-type: http
+  build-parameters:
+    build-result: target/*-exec.jar
+    builder: custom
+    commands:
+    - mvn clean package -DskipTests=true
+- name: mplan-db-deployer
+  type: hdb
+  path: db
+  requires:
+  - name: mplan-db
+  parameters:
+    buildpack: nodejs_buildpack
+  build-parameters:
+    builder: custom
+    commands:
+    - npm run build
+- name: mplan-app-content
+  type: com.sap.application.content
+  path: .
+  requires:
+  - name: mplan-repo-host
     parameters:
-      service: hana
-      service-plan: hdi-shared
+      content-target: true
+  build-parameters:
+    build-result: resources
+    requires:
+    - artifacts:
+      - project1.zip
+      name: project1
+      target-path: resources/
+- name: project1
+  type: html5
+  path: app/project1
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+resources:
+- name: mplan-db
+  type: com.sap.xs.hdi-container
+  parameters:
+    service: hana
+    service-plan: hdi-shared
+- name: mplan-repo-host
+  type: org.cloudfoundry.managed-service
+  parameters:
+    service: html5-apps-repo
+    service-name: mplan-html5-srv
+    service-plan: app-host
+- name: mplan-destination-service
+  type: org.cloudfoundry.managed-service
+  parameters:
+    config:
+      HTML5Runtime_enabled: false
+      init_data:
+        instance:
+          destinations:
+          - Authentication: NoAuthentication
+            Name: ui5
+            ProxyType: Internet
+            Type: HTTP
+            URL: https://ui5.sap.com
+          existing_destinations_policy: update
+      version: 1.0.0
+    service: destination
+    service-name: mplan-destination-service
+    service-plan: lite
+parameters:
+  deploy_mode: html5-repo
+  enable-parallel-deployments: true
