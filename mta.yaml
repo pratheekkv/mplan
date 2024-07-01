@@ -60,6 +60,32 @@ modules:
     - npm install
     - npm run build:cf
     supported-platforms: []
+- name: cpapp-destinations
+  type: com.sap.application.content
+  requires:
+  - name: mplan-repo-host
+    parameters:
+      service-key:
+        name: mplan-repo-host-key
+  - name: srv-api
+  - name: mplan-destination-service
+    parameters:
+      content-target: true
+  parameters:
+     content:
+       instance:
+         destinations:
+           - Authentication: NoAuthentication
+             Name: MPLAN_BACKEND
+             URL: '~{srv-api/srv-url}'
+             sap.cloud.service: mplankvpr.service
+           - Name: mplan-html5-repo-host
+             ServiceInstanceName: mplan-repo-host
+             ServiceKeyName: mplan-repo-host-key
+             sap.cloud.service: mplankvpr.service
+         existing_destinations_policy: update
+  build-parameters:
+     no-source: true    
 resources:
 - name: mplan-db
   type: com.sap.xs.hdi-container
