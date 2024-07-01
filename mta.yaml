@@ -75,11 +75,6 @@ modules:
      content:
        instance:
          destinations:
-           - Authentication: NoAuthentication
-             Name: MPLAN_BACKEND
-             ProxyType: Internet
-             Type: HTTP
-             URL: '~{srv-api/srv-url}'
            - Name: mplan-html5-repo-host
              ServiceInstanceName: mplan-html5-srv
              ServiceKeyName: mplan-html5-srv-key
@@ -112,6 +107,14 @@ resources:
             ProxyType: Internet
             Type: HTTP
             URL: https://ui5.sap.com
+          - Authentication: NoAuthentication
+            ForwardAuthToken: true
+            HTML5.DynamicDestination: true
+            HTML5.FowardAuthToken: true
+            Name: MPLAN_BACKEND
+            ProxyType: Internet
+            Type: HTTP
+            URL: https://rmtest-rmcfkvpr-myspace-mplan-srv.cfapps.sap.hana.ondemand.com
           existing_destinations_policy: update
       version: 1.0.0
     service: destination
