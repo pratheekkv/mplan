@@ -1,5 +1,6 @@
 using MaintenancePlan as service from '../../srv/MaintenancePlanner';
 annotate service.MaintenancePlan with @(
+    odata.draft.enabled: true,
     UI.FieldGroup #GeneratedGroup : {
         $Type : 'UI.FieldGroupType',
         Data : [
