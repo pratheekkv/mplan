@@ -65,6 +65,10 @@ modules:
   - name: mplan-destinations
     type: com.sap.application.content
     requires:
+      - name: mplan-auth
+        parameters:
+          service-key: 
+            name: mplan-auth-key
       - name: mplan-html5-srv
         parameters:
           service-key:
