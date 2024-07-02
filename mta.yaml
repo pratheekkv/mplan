@@ -78,7 +78,7 @@ modules:
            - Name: mplan-html5-repo-host
              ServiceInstanceName: mplan-html5-srv
              ServiceKeyName: mplan-html5-srv-key
-             sap.cloud.service: mplankvpr.service
+             sap.cloud.service: mplankvpr.demo
          existing_destinations_policy: update
   build-parameters:
      no-source: true    
